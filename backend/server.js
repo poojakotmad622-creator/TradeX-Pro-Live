@@ -28,8 +28,13 @@ app.use("/api/portfolio", portfolioRoutes);
 app.use("/api/transactions", transactionRoutes);
 
 // Home Route
+// Home Route
 app.get("/", (req, res) => {
-  res.send("🚀 TradeX Pro Backend Running Successfully");
+  res.json({
+    message: "Backend Running",
+    mongo: process.env.MONGO_URI ? "FOUND" : "MISSING",
+    jwt: process.env.JWT_SECRET ? "FOUND" : "MISSING"
+  });
 });
 
 // Start Server
