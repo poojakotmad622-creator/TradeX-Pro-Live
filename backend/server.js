@@ -1,3 +1,4 @@
+console.log("🚀 SERVER FILE STARTED");
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
@@ -39,7 +40,7 @@ app.get("/", (req, res) => {
 
 // Start Server
 const PORT = process.env.PORT || 8080;
-
+console.log("🚀 ABOUT TO START SERVER");
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
