@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>TradeX Pro Charts</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#050816;
+color:white;
+}
+
+header{
+background:#111827;
+padding:20px;
+text-align:center;
+font-size:35px;
+font-weight:bold;
+color:#ffbb00;
+box-shadow:0 0 20px rgba(255,187,0,.2);
+}
+
+.menu{
+display:flex;
+justify-content:center;
+gap:20px;
+padding:20px;
+flex-wrap:wrap;
+}
+
+button{
+padding:15px 30px;
+border:none;
+border-radius:30px;
+background:#ffbb00;
+font-weight:bold;
+cursor:pointer;
+transition:.3s;
+}
+
+button:hover{
+transform:translateY(-5px);
+}
+
+.chart{
+padding:20px;
+}
+
+iframe{
+width:100%;
+height:700px;
+border:none;
+border-radius:20px;
+}
+
+</style>
+
+</head>
+<body>
+
+<header>
+📈 TradeX Pro Charts
+</header>
+
+<div class="menu">
+
+<button onclick="changeChart('BINANCE:BTCUSDT')">
+Bitcoin
+</button>
+
+<button onclick="changeChart('BINANCE:ETHUSDT')">
+Ethereum
+</button>
+
+<button onclick="changeChart('BINANCE:SOLUSDT')">
+Solana
+</button>
+
+</div>
+
+<div class="chart">
+
+<div id="tradingview_chart"></div>
+
+</div>
+
+<script src="https://s3.tradingview.com/tv.js"></script>
+
+<script>
+
+function loadChart(symbol){
+
+document.getElementById("tradingview_chart").innerHTML="";
+
+new TradingView.widget({
+
+"width":"100%",
+"height":"700",
+"symbol":symbol,
+"interval":"15",
+"timezone":"Asia/Kolkata",
+"theme":"dark",
+"style":"1",
+"locale":"en",
+"toolbar_bg":"#111827",
+"enable_publishing":false,
+"allow_symbol_change":true,
+"container_id":"tradingview_chart"
+
+});
+
+}
+
+function changeChart(symbol){
+
+loadChart(symbol);
+
+}
+
+loadChart("BINANCE:BTCUSDT");
+
+</script>
+
+</body>
+</html>

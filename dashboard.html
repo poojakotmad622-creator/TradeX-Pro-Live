@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TradeX Pro Dashboard</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#050816;
+color:white;
+}
+
+nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 8%;
+background:#111827;
+border-bottom:1px solid rgba(255,187,0,.2);
+}
+
+.logo{
+font-size:32px;
+font-weight:bold;
+color:#ffbb00;
+}
+
+.menu{
+display:flex;
+gap:25px;
+flex-wrap:wrap;
+}
+
+.menu a{
+color:white;
+text-decoration:none;
+transition:.3s;
+}
+
+.menu a:hover{
+color:#ffbb00;
+}
+
+.container{
+padding:40px 8%;
+}
+
+.cards{
+display:flex;
+gap:25px;
+flex-wrap:wrap;
+margin-bottom:40px;
+}
+
+.card{
+flex:1;
+min-width:250px;
+background:#111827;
+padding:30px;
+border-radius:20px;
+box-shadow:0 0 15px rgba(255,187,0,.15);
+}
+
+.card h3{
+color:#aaa;
+margin-bottom:15px;
+}
+
+.card h1{
+color:#ffbb00;
+}
+
+.market{
+display:flex;
+gap:25px;
+flex-wrap:wrap;
+}
+
+.coin{
+flex:1;
+min-width:220px;
+background:#111827;
+padding:30px;
+border-radius:20px;
+text-align:center;
+box-shadow:0 0 15px rgba(255,187,0,.15);
+}
+
+.coin h2{
+color:#ffbb00;
+margin-bottom:15px;
+}
+
+.coin h1{
+margin-bottom:10px;
+}
+
+.green{
+color:#00ff99;
+}
+
+.red{
+color:red;
+}
+
+@media(max-width:768px){
+
+nav{
+flex-direction:column;
+gap:20px;
+}
+
+.menu{
+justify-content:center;
+}
+
+.cards,
+.market{
+flex-direction:column;
+}
+
+}
+
+</style>
+</head>
+<body>
+
+<nav>
+
+<div class="logo">
+TradeX Pro
+</div>
+
+<div class="menu">
+
+<a href="index.html">Home</a>
+<a href="market.html">Market</a>
+<a href="portfolio.html">Portfolio</a>
+<a href="history.html">History</a>
+<a href="profile.html">Profile</a>
+<a href="chart.html">Chart</a>
+<a href="login.html" style="color:#ffbb00;">
+Logout
+</a>
+
+</div>
+
+</nav>
+
+<div class="container">
+
+<div class="cards">
+
+<div class="card">
+<h3>Balance</h3>
+<h1 id="balance">$0</h1>
+</div>
+
+<div class="card">
+<h3>Total Assets</h3>
+<h1 id="assets">0</h1>
+</div>
+
+<div class="card">
+<h3>Total Transactions</h3>
+<h1 id="transactions">0</h1>
+</div>
+
+<div class="card">
+<h3>Profit / Loss</h3>
+<h1 id="profit">$0</h1>
+</div>
+
+<div class="card">
+<h3>Portfolio Value</h3>
+<h1 id="portfolioValue">$0</h1>
+</div>
+
+</div>
+
+<h2 style="color:#ffbb00;margin-bottom:25px;">
+Top Coins
+</h2>
+
+<div class="market">
+
+<div class="coin">
+<h2>Bitcoin</h2>
+<h1>$108,000</h1>
+<p>BTC/USD</p>
+</div>
+
+<div class="coin">
+<h2>Ethereum</h2>
+<h1>$4,200</h1>
+<p>ETH/USD</p>
+</div>
+
+<div class="coin">
+<h2>Solana</h2>
+<h1>$220</h1>
+<p>SOL/USD</p>
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+let balance =
+parseFloat(localStorage.getItem("balance")) || 100000;
+
+let portfolio =
+JSON.parse(localStorage.getItem("portfolio")) || [];
+
+let history =
+JSON.parse(localStorage.getItem("history")) || [];
+
+document.getElementById("balance").innerHTML =
+"$" + balance.toLocaleString();
+
+document.getElementById("assets").innerHTML =
+portfolio.length;
+
+document.getElementById("transactions").innerHTML =
+history.length;
+
+let initialBalance = 100000;
+
+let profit = balance - initialBalance;
+
+document.getElementById("profit").innerHTML =
+(profit >= 0 ? "+" : "") +
+"$" +
+profit.toLocaleString();
+
+if(profit >= 0){
+document.getElementById("profit").classList.add("green");
+}else{
+document.getElementById("profit").classList.add("red");
+}
+
+let totalValue = 0;
+
+portfolio.forEach(asset=>{
+
+totalValue += asset.qty * asset.buyPrice;
+
+});
+
+document.getElementById("portfolioValue").innerHTML =
+"$" + totalValue.toLocaleString();
+
+</script>
+
+</body>
+</html>

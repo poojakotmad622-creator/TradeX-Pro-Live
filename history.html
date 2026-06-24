@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Transaction History</title>
+
+<style>
+
+body{
+background:#050816;
+color:white;
+font-family:Arial;
+padding:40px;
+}
+
+h1{
+color:#ffbb00;
+margin-bottom:30px;
+}
+
+.box{
+background:#111827;
+padding:25px;
+border-radius:20px;
+margin-bottom:20px;
+box-shadow:0 0 15px rgba(255,187,0,.15);
+}
+
+.buy{
+color:#00ff99;
+}
+
+.sell{
+color:#ff5252;
+}
+
+.time{
+color:#aaa;
+font-size:14px;
+margin-top:10px;
+}
+
+a{
+display:inline-block;
+margin-top:20px;
+color:#ffbb00;
+text-decoration:none;
+font-size:18px;
+}
+
+.empty{
+color:#aaa;
+font-size:20px;
+}
+
+button{
+padding:15px 30px;
+background:#ff5252;
+color:white;
+border:none;
+border-radius:10px;
+cursor:pointer;
+margin-top:20px;
+font-size:16px;
+}
+
+button:hover{
+opacity:.8;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>📜 Transaction History</h1>
+
+<div id="historyContainer"></div>
+
+<button onclick="clearHistory()">
+🗑 Clear History
+</button>
+
+<br>
+
+<a href="dashboard.html">
+⬅ Back Dashboard
+</a>
+
+<script>
+
+let history = JSON.parse(localStorage.getItem("history")) || [];
+
+let container = document.getElementById("historyContainer");
+
+if(history.length === 0){
+
+container.innerHTML =
+"<p class='empty'>No transactions yet.</p>";
+
+}
+
+history.reverse().forEach(item=>{
+
+container.innerHTML += `
+
+<div class="box">
+
+<h2 class="${item.type.toLowerCase()}">
+
+${item.type} ${item.asset}
+
+</h2>
+
+<p>
+Quantity : ${item.qty}
+</p>
+
+<p>
+Price : $${item.price}
+</p>
+
+<div class="time">
+${item.time || "Trade Completed Successfully"}
+</div>
+
+</div>
+
+`;
+
+});
+
+function clearHistory(){
+
+if(confirm("Delete all transaction history?")){
+
+localStorage.removeItem("history");
+
+location.reload();
+
+}
+
+}
+
+</script>
+
+</body>
+</html>

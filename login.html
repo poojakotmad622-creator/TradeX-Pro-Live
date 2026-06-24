@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TradeX Pro Login</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+
+background:
+linear-gradient(rgba(0,0,0,.75),
+rgba(0,0,0,.75)),
+url("https://images.unsplash.com/photo-1621761191319-c6fb62004040")
+center/cover no-repeat;
+
+color:white;
+}
+
+.login-box{
+width:400px;
+padding:40px;
+
+background:rgba(255,255,255,.05);
+
+backdrop-filter:blur(20px);
+
+border:1px solid rgba(255,180,0,.2);
+
+border-radius:25px;
+
+text-align:center;
+}
+
+.logo{
+font-size:35px;
+font-weight:bold;
+color:#ffb400;
+margin-bottom:30px;
+}
+
+input{
+width:100%;
+padding:15px;
+margin:12px 0;
+background:#111827;
+border:none;
+outline:none;
+border-radius:15px;
+color:white;
+}
+
+button{
+width:100%;
+padding:15px;
+margin-top:20px;
+background:#ffb400;
+border:none;
+border-radius:50px;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+transition:.3s;
+}
+
+button:hover{
+transform:translateY(-5px);
+box-shadow:0 0 20px #ffb400;
+}
+
+a{
+color:#ffb400;
+text-decoration:none;
+}
+
+p{
+margin-top:20px;
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="login-box">
+
+<div class="logo">
+<i class="fa-brands fa-bitcoin"></i>
+TradeX Pro
+</div>
+
+<h2>Welcome Back</h2>
+
+<input
+type="email"
+id="email"
+placeholder="Email Address">
+
+<input
+type="password"
+id="password"
+placeholder="Password">
+
+<button onclick="login()">
+Login
+</button>
+
+<p>
+Don't have an account?
+<a href="register.html">
+Create Account
+</a>
+</p>
+
+</div>
+
+<script>
+
+async function login(){
+
+const email=document.getElementById("email").value;
+
+const password=document.getElementById("password").value;
+
+try{
+
+const response=await fetch(
+"http://localhost:5000/api/auth/login",
+{
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+email,
+password
+})
+
+});
+
+const data=await response.json();
+
+if(response.ok){
+
+alert("Login Successful ✅");
+
+localStorage.setItem(
+"token",
+data.token
+);
+
+window.location.href="dashboard.html";
+
+}
+
+else{
+
+alert(data.message);
+
+}
+
+}
+
+catch(error){
+
+alert("Server Error");
+
+}
+
+}
+
+</script>
+<script src="app.js"></script>
+</body>
+</html>

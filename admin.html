@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TradeX Pro Admin Panel</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:#0b0f1a;
+color:white;
+}
+
+header{
+background:#111827;
+padding:20px;
+text-align:center;
+font-size:35px;
+font-weight:bold;
+color:#ffb400;
+box-shadow:0 0 20px rgba(255,180,0,.2);
+}
+
+.container{
+width:90%;
+margin:auto;
+padding:50px 0;
+}
+
+h1{
+text-align:center;
+color:#ffb400;
+margin-bottom:40px;
+}
+
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
+}
+
+.card{
+background:rgba(255,255,255,.05);
+padding:30px;
+border-radius:25px;
+border:1px solid rgba(255,180,0,.15);
+box-shadow:0 0 20px rgba(255,180,0,.15);
+text-align:center;
+transition:.4s;
+}
+
+.card:hover{
+transform:translateY(-10px);
+box-shadow:0 0 30px rgba(255,180,0,.4);
+}
+
+.card h2{
+color:#ffb400;
+margin-bottom:15px;
+}
+
+.number{
+font-size:45px;
+font-weight:bold;
+}
+
+.green{
+color:#00ff66;
+}
+
+.blue{
+color:#00d9ff;
+}
+
+.red{
+color:#ff4d4d;
+}
+
+.gold{
+color:#ffb400;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+👑 TradeX Pro Admin Panel
+</header>
+
+<div class="container">
+
+<h1>Dashboard Overview</h1>
+
+<div class="cards">
+
+<div class="card">
+<h2>👥 Total Users</h2>
+<div class="number">1250</div>
+</div>
+
+<div class="card">
+<h2>⭐ VIP Members</h2>
+<div class="number gold">420</div>
+</div>
+
+<div class="card">
+<h2>📈 Active Traders</h2>
+<div class="number green">980</div>
+</div>
+
+<div class="card">
+<h2>💰 Revenue</h2>
+<div class="number">$85K</div>
+</div>
+
+<div class="card">
+<h2>📩 Messages</h2>
+<div class="number blue">56</div>
+</div>
+
+<div class="card">
+<h2>🚨 Reports</h2>
+<div class="number red">8</div>
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>

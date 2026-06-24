@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TradeX Pro Market</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:#0b0f1a;
+color:white;
+}
+
+nav{
+padding:20px 8%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:#111827;
+border-bottom:1px solid rgba(255,180,0,.2);
+}
+
+.logo{
+font-size:30px;
+font-weight:bold;
+color:#ffb400;
+}
+
+.container{
+padding:50px 8%;
+}
+
+.market-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
+margin-bottom:50px;
+}
+
+.card{
+padding:30px;
+background:rgba(255,255,255,.05);
+border-radius:20px;
+border:1px solid rgba(255,180,0,.15);
+text-align:center;
+}
+
+.card h2{
+color:#ffb400;
+margin-bottom:15px;
+}
+
+.card h1{
+font-size:40px;
+margin-bottom:15px;
+}
+
+.buy-btn{
+background:#00c853;
+color:white;
+border:none;
+padding:12px 25px;
+border-radius:10px;
+cursor:pointer;
+margin:5px;
+}
+
+.sell-btn{
+background:#ff1744;
+color:white;
+border:none;
+padding:12px 25px;
+border-radius:10px;
+cursor:pointer;
+margin:5px;
+}
+
+.chart-box{
+background:rgba(255,255,255,.05);
+padding:40px;
+border-radius:20px;
+margin-bottom:50px;
+}
+
+.chart-box iframe{
+width:100%;
+height:550px;
+border:none;
+border-radius:20px;
+}
+
+.gainers{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:25px;
+}
+
+.coin{
+padding:25px;
+background:rgba(255,255,255,.05);
+border-radius:20px;
+text-align:center;
+}
+
+.green{
+color:#00e676;
+}
+
+</style>
+</head>
+<body>
+<h1 style="color:red;font-size:50px;">
+MARKET PAGE TEST
+</h1>
+
+<nav>
+
+<div class="logo">
+TradeX Pro
+</div>
+
+<a href="index.html" style="color:#ffb400;text-decoration:none;">
+Home
+</a>
+
+</nav>
+
+<div class="container">
+
+<h1 style="color:#ffb400;margin-bottom:40px;">
+Live Market
+</h1>
+
+<div class="market-grid">
+
+<div class="card">
+<h2>Bitcoin</h2>
+<h1 id="btc">$0</h1>
+<p>BTC/USD</p>
+
+<button class="buy-btn"
+onclick="buyAsset('Bitcoin',65000,0.1)">
+BUY
+</button>
+
+<button class="sell-btn"
+onclick="sellAsset('Bitcoin',65000,0.1)">
+SELL
+</button>
+
+</div>
+
+<div class="card">
+<h2>Ethereum</h2>
+<h1 id="eth">$0</h1>
+<p>ETH/USD</p>
+
+<button class="buy-btn"
+onclick="buyAsset('Ethereum',3200,1)">
+BUY
+</button>
+
+<button class="sell-btn"
+onclick="sellAsset('Ethereum',3200,1)">
+SELL
+</button>
+
+</div>
+
+<div class="card">
+<h2>Solana</h2>
+<h1 id="sol">$0</h1>
+<p>SOL/USD</p>
+
+<button class="buy-btn"
+onclick="buyAsset('Solana',150,10)">
+BUY
+</button>
+
+<button class="sell-btn"
+onclick="sellAsset('Solana',150,10)">
+SELL
+</button>
+
+</div>
+
+</div>
+
+<div class="chart-box">
+
+<h2 style="color:#ffb400;margin-bottom:20px;">
+TradingView Chart
+</h2>
+
+<iframe
+src="https://s.tradingview.com/widgetembed/?symbol=BINANCE:BTCUSDT&interval=60&theme=dark">
+</iframe>
+
+</div>
+
+<h2 style="color:#ffb400;margin-bottom:20px;">
+Top Gainers
+</h2>
+
+<div class="gainers">
+
+<div class="coin">
+<h2>PEPE</h2>
+<h1 class="green">+18%</h1>
+</div>
+
+<div class="coin">
+<h2>SUI</h2>
+<h1 class="green">+14%</h1>
+</div>
+
+<div class="coin">
+<h2>ARB</h2>
+<h1 class="green">+11%</h1>
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+async function loadPrices(){
+
+try{
+
+let response=await fetch(
+"https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd"
+);
+
+let data=await response.json();
+
+document.getElementById("btc").innerHTML="$"+data.bitcoin.usd;
+document.getElementById("eth").innerHTML="$"+data.ethereum.usd;
+document.getElementById("sol").innerHTML="$"+data.solana.usd;
+
+}catch(e){
+
+console.log(e);
+
+}
+
+}
+
+loadPrices();
+
+setInterval(loadPrices,10000);
+
+</script>
+
+<script src="script.js"></script>
+
+</body>
+</html>

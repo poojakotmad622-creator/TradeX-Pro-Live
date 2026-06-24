@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TradeX Pro Register</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#050816;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+}
+
+.register-box{
+width:450px;
+background:#111827;
+padding:40px;
+border-radius:20px;
+box-shadow:0 0 20px rgba(255,187,0,.3);
+text-align:center;
+}
+
+.logo{
+font-size:50px;
+color:#ffbb00;
+margin-bottom:15px;
+}
+
+h1{
+color:#ffbb00;
+margin-bottom:10px;
+}
+
+p{
+color:#ddd;
+margin-bottom:25px;
+}
+
+.input-box{
+margin-bottom:15px;
+}
+
+input{
+width:100%;
+padding:15px;
+border:none;
+outline:none;
+background:#1e293b;
+color:white;
+border-radius:10px;
+font-size:16px;
+}
+
+button{
+width:100%;
+padding:15px;
+background:#ffbb00;
+color:black;
+border:none;
+border-radius:30px;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+transition:.3s;
+cursor:pointer;
+}
+
+button:hover{
+background:white;
+}
+
+.links{
+margin-top:20px;
+}
+
+.links a{
+color:#ffbb00;
+text-decoration:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="register-box">
+
+<div class="logo">₿</div>
+
+<h1>Create Account</h1>
+
+<p>Join TradeX Pro Today</p>
+
+<div class="input-box">
+<input type="text" id="name" placeholder="Full Name">
+</div>
+
+<div class="input-box">
+<input type="email" id="email" placeholder="Email Address">
+</div>
+
+<div class="input-box">
+<input type="password" id="password" placeholder="Password">
+</div>
+
+<div class="input-box">
+<input type="password" id="confirmPassword" placeholder="Confirm Password">
+</div>
+
+<button onclick="createAccount()">
+Create Account
+</button>
+
+<div class="links">
+<br>
+<a href="login.html">
+Already have an account? Login
+</a>
+</div>
+
+</div>
+
+<script>
+
+async function createAccount(){
+
+const name=document.getElementById("name").value;
+
+const email=document.getElementById("email").value;
+
+const password=document.getElementById("password").value;
+
+const confirmPassword=document.getElementById("confirmPassword").value;
+
+if(password!==confirmPassword){
+
+alert("Passwords do not match");
+
+return;
+
+}
+
+try{
+
+const response=await fetch(
+"http://localhost:5000/api/auth/register",
+{
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+name,
+email,
+password
+})
+
+}
+);
+
+const data=await response.json();
+
+if(response.ok){
+
+alert("Registration Successful ✅");
+
+window.location.href="login.html";
+
+}
+
+else{
+
+alert(data.message);
+
+}
+
+}
+
+catch(error){
+
+alert("Server Error");
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
