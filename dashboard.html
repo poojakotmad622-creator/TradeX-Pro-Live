@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -62,7 +63,7 @@ padding:40px 8%;
 }
 
 .welcome{
-margin-bottom:20px;
+margin-bottom:25px;
 color:#aaa;
 }
 
@@ -95,6 +96,7 @@ color:#ffbb00;
 display:flex;
 gap:25px;
 flex-wrap:wrap;
+margin-bottom:40px;
 }
 
 .coin{
@@ -112,8 +114,40 @@ color:#ffbb00;
 margin-bottom:10px;
 }
 
-.green{ color:#00ff99; }
-.red{ color:#ff4d4d; }
+.green{
+color:#00ff99;
+}
+
+.red{
+color:#ff4d4d;
+}
+
+.section-title{
+color:#ffbb00;
+margin:40px 0 20px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th{
+background:#ffbb00;
+color:black;
+padding:12px;
+}
+
+td{
+padding:12px;
+border-bottom:1px solid rgba(255,255,255,.1);
+text-align:center;
+}
+
+.history-item{
+padding:10px 0;
+border-bottom:1px solid rgba(255,255,255,.1);
+}
 
 @media(max-width:768px){
 
@@ -139,7 +173,10 @@ flex-direction:column;
 <body>
 
 <nav>
-<div class="logo">TradeX Pro</div>
+
+<div class="logo">
+TradeX Pro
+</div>
 
 <div class="menu">
 <a href="index.html">Home</a>
@@ -149,6 +186,7 @@ flex-direction:column;
 <a href="profile.html">Profile</a>
 <a class="logout" onclick="logout()">Logout</a>
 </div>
+
 </nav>
 
 <div class="container">
@@ -186,9 +224,7 @@ flex-direction:column;
 
 </div>
 
-<h2 style="color:#ffbb00;margin-bottom:25px;">
-Top Coins
-</h2>
+<h2 class="section-title">Top Coins</h2>
 
 <div class="market">
 
@@ -212,23 +248,63 @@ Top Coins
 
 </div>
 
+<h2 class="section-title">My Portfolio</h2>
+
+<div class="card">
+
+<table>
+
+<thead>
+<tr>
+<th>Asset</th>
+<th>Quantity</th>
+<th>Buy Price</th>
+</tr>
+</thead>
+
+<tbody id="portfolioTableBody">
+
+</tbody>
+
+</table>
+
+</div>
+
+<h2 class="section-title">Recent Transactions</h2>
+
+<div class="card">
+
+<div id="historyList">
+
+No Transactions Yet
+
+</div>
+
+</div>
+
 </div>
 
 <script>
 
 const token = localStorage.getItem("token");
-const user = JSON.parse(localStorage.getItem("user"));
 
 if(!token){
 window.location.href = "login.html";
 }
 
+const user =
+JSON.parse(localStorage.getItem("user"));
+
 document.getElementById("username").innerText =
 user?.name || "User";
 
 function logout(){
-localStorage.clear();
+
+localStorage.removeItem("token");
+localStorage.removeItem("user");
+
 window.location.href = "login.html";
+
 }
 
 let balance =
@@ -253,7 +329,8 @@ let initialBalance = 100000;
 
 let profit = balance - initialBalance;
 
-let profitEl = document.getElementById("profit");
+let profitEl =
+document.getElementById("profit");
 
 profitEl.innerHTML =
 (profit >= 0 ? "+" : "") +
@@ -275,7 +352,43 @@ totalValue += asset.qty * asset.buyPrice;
 document.getElementById("portfolioValue").innerHTML =
 "$" + totalValue.toLocaleString();
 
+let portfolioBody =
+document.getElementById("portfolioTableBody");
+
+portfolio.forEach(asset=>{
+
+portfolioBody.innerHTML += `
+<tr>
+<td>${asset.name}</td>
+<td>${asset.qty}</td>
+<td>$${asset.buyPrice}</td>
+</tr>
+`;
+
+});
+
+let historyList =
+document.getElementById("historyList");
+
+if(history.length > 0){
+
+historyList.innerHTML = "";
+
+history.slice(-5).reverse().forEach(item=>{
+
+historyList.innerHTML += `
+<div class="history-item">
+${item.type} ${item.asset}
+(${item.qty}) - $${item.price}
+</div>
+`;
+
+});
+
+}
+
 </script>
 
 </body>
 </html>
+```

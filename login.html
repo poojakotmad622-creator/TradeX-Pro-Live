@@ -167,7 +167,10 @@ const data=await response.json();
 
 if(response.ok){
 
-localStorage.setItem("token",data.token);
+localStorage.setItem(
+  "userName",
+  data.user.name
+);
 localStorage.setItem("user",JSON.stringify(data.user));
 
 btn.innerText="Success ✔";

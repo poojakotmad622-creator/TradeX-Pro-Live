@@ -145,33 +145,6 @@ function sellAsset(name, price, qty) {
   alert("Sold " + qty + " " + name);
 }
 
-// THEME
-function toggleTheme() {
-
-  document.body.classList.toggle("light-theme");
-
-  if (document.body.classList.contains("light-theme")) {
-
-    localStorage.setItem("theme", "light");
-
-    const btn = document.getElementById("themeBtn");
-
-    if (btn) {
-      btn.innerHTML = "☀ Light Mode";
-    }
-
-  } else {
-
-    localStorage.setItem("theme", "dark");
-
-    const btn = document.getElementById("themeBtn");
-
-    if (btn) {
-      btn.innerHTML = "🌙 Dark Mode";
-    }
-
-  }
-}
 
 // LOAD SAVED THEME
 if (localStorage.getItem("theme") === "light") {
