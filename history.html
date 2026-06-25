@@ -1,15 +1,63 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Transaction History</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TradeX Pro History</title>
 
 <style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
 
 body{
 background:#050816;
 color:white;
-font-family:Arial;
-padding:40px;
+}
+
+/* NAVBAR */
+
+nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 8%;
+background:#111827;
+border-bottom:1px solid rgba(255,187,0,.2);
+flex-wrap:wrap;
+}
+
+.logo{
+font-size:28px;
+font-weight:bold;
+color:#ffbb00;
+}
+
+.menu{
+display:flex;
+gap:20px;
+flex-wrap:wrap;
+align-items:center;
+}
+
+.menu a{
+color:white;
+text-decoration:none;
+transition:.3s;
+}
+
+.menu a:hover{
+color:#ffbb00;
+}
+
+/* PAGE */
+
+.container{
+padding:40px 8%;
 }
 
 h1{
@@ -39,14 +87,6 @@ font-size:14px;
 margin-top:10px;
 }
 
-a{
-display:inline-block;
-margin-top:20px;
-color:#ffbb00;
-text-decoration:none;
-font-size:18px;
-}
-
 .empty{
 color:#aaa;
 font-size:20px;
@@ -67,10 +107,43 @@ button:hover{
 opacity:.8;
 }
 
+@media(max-width:768px){
+
+nav{
+flex-direction:column;
+gap:15px;
+}
+
+.menu{
+justify-content:center;
+}
+
+}
+
 </style>
 </head>
 
 <body>
+
+<nav>
+
+<div class="logo">
+TradeX Pro
+</div>
+
+<div class="menu">
+<a href="index.html">Home</a>
+<a href="dashboard.html">Dashboard</a>
+<a href="market.html">Market</a>
+<a href="portfolio.html">Portfolio</a>
+<a href="history.html">History</a>
+<a href="profile.html">Profile</a>
+<a href="login.html">Logout</a>
+</div>
+
+</nav>
+
+<div class="container">
 
 <h1>📜 Transaction History</h1>
 
@@ -80,17 +153,15 @@ opacity:.8;
 🗑 Clear History
 </button>
 
-<br>
-
-<a href="dashboard.html">
-⬅ Back Dashboard
-</a>
+</div>
 
 <script>
 
-let history = JSON.parse(localStorage.getItem("history")) || [];
+let history =
+JSON.parse(localStorage.getItem("history")) || [];
 
-let container = document.getElementById("historyContainer");
+let container =
+document.getElementById("historyContainer");
 
 if(history.length === 0){
 
@@ -106,9 +177,7 @@ container.innerHTML += `
 <div class="box">
 
 <h2 class="${item.type.toLowerCase()}">
-
 ${item.type} ${item.asset}
-
 </h2>
 
 <p>

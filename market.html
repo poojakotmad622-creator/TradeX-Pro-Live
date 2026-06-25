@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,13 +20,16 @@ background:#0b0f1a;
 color:white;
 }
 
+/* NAVBAR */
+
 nav{
-padding:20px 8%;
 display:flex;
 justify-content:space-between;
 align-items:center;
+padding:20px 8%;
 background:#111827;
 border-bottom:1px solid rgba(255,180,0,.2);
+flex-wrap:wrap;
 }
 
 .logo{
@@ -33,6 +37,25 @@ font-size:30px;
 font-weight:bold;
 color:#ffb400;
 }
+
+.menu{
+display:flex;
+gap:20px;
+flex-wrap:wrap;
+align-items:center;
+}
+
+.menu a{
+color:white;
+text-decoration:none;
+transition:.3s;
+}
+
+.menu a:hover{
+color:#ffb400;
+}
+
+/* PAGE */
 
 .container{
 padding:50px 8%;
@@ -114,26 +137,46 @@ text-align:center;
 color:#00e676;
 }
 
+@media(max-width:768px){
+
+nav{
+flex-direction:column;
+gap:15px;
+}
+
+.menu{
+justify-content:center;
+}
+
+}
+
 </style>
 </head>
+
 <body>
-<
+
 <nav>
 
 <div class="logo">
 TradeX Pro
 </div>
 
-<a href="index.html" style="color:#ffb400;text-decoration:none;">
-Home
-</a>
+<div class="menu">
+<a href="index.html">Home</a>
+<a href="dashboard.html">Dashboard</a>
+<a href="market.html">Market</a>
+<a href="portfolio.html">Portfolio</a>
+<a href="history.html">History</a>
+<a href="profile.html">Profile</a>
+<a href="#" onclick="logout()">Logout</a>
+</div>
 
 </nav>
 
 <div class="container">
 
 <h1 style="color:#ffb400;margin-bottom:40px;">
-Live Market
+📈 Live Market
 </h1>
 
 <div class="market-grid">
@@ -152,7 +195,6 @@ BUY
 onclick="sellAsset('Bitcoin',65000,0.1)">
 SELL
 </button>
-
 </div>
 
 <div class="card">
@@ -169,7 +211,6 @@ BUY
 onclick="sellAsset('Ethereum',3200,1)">
 SELL
 </button>
-
 </div>
 
 <div class="card">
@@ -186,7 +227,6 @@ BUY
 onclick="sellAsset('Solana',150,10)">
 SELL
 </button>
-
 </div>
 
 </div>
@@ -204,7 +244,7 @@ src="https://s.tradingview.com/widgetembed/?symbol=BINANCE:BTCUSDT&interval=60&t
 </div>
 
 <h2 style="color:#ffb400;margin-bottom:20px;">
-Top Gainers
+🔥 Top Gainers
 </h2>
 
 <div class="gainers">
@@ -230,19 +270,33 @@ Top Gainers
 
 <script>
 
+function logout(){
+
+localStorage.removeItem("token");
+localStorage.removeItem("user");
+
+window.location.href="login.html";
+
+}
+
 async function loadPrices(){
 
 try{
 
-let response=await fetch(
+let response = await fetch(
 "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd"
 );
 
-let data=await response.json();
+let data = await response.json();
 
-document.getElementById("btc").innerHTML="$"+data.bitcoin.usd;
-document.getElementById("eth").innerHTML="$"+data.ethereum.usd;
-document.getElementById("sol").innerHTML="$"+data.solana.usd;
+document.getElementById("btc").innerHTML =
+"$" + data.bitcoin.usd;
+
+document.getElementById("eth").innerHTML =
+"$" + data.ethereum.usd;
+
+document.getElementById("sol").innerHTML =
+"$" + data.solana.usd;
 
 }catch(e){
 
@@ -262,3 +316,4 @@ setInterval(loadPrices,10000);
 
 </body>
 </html>
+```
