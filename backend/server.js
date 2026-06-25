@@ -13,7 +13,7 @@ dotenv.config();
 console.log("MONGO_URI =", process.env.MONGO_URI);
 
 // MongoDB Connect
-// connectDB();
+connectDB();
 
 const app = express();
 

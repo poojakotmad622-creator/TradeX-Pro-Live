@@ -1,243 +1,186 @@
 // BALANCE
-
 let balance = localStorage.getItem("balance")
-? parseFloat(localStorage.getItem("balance"))
-: 100000;
-
+  ? parseFloat(localStorage.getItem("balance"))
+  : 100000;
 
 // PORTFOLIO
-
 let portfolio =
-JSON.parse(localStorage.getItem("portfolio")) || [];
-
+  JSON.parse(localStorage.getItem("portfolio")) || [];
 
 // UPDATE BALANCE
-
-if(document.getElementById("balance")){
-document.getElementById("balance").innerText =
-balance.toLocaleString();
+if (document.getElementById("balance")) {
+  document.getElementById("balance").innerText =
+    balance.toLocaleString();
 }
-
 
 // DISPLAY PORTFOLIO
+function displayPortfolio() {
 
-function displayPortfolio(){
+  let tbody = document.querySelector("#portfolioTable tbody");
 
-let tbody = document.querySelector("#portfolioTable tbody");
+  if (!tbody) return;
 
-if(!tbody) return;
+  tbody.innerHTML = "";
 
-tbody.innerHTML = "";
+  portfolio.forEach(asset => {
 
-portfolio.forEach(asset=>{
+    let row = `
+      <tr>
+        <td>${asset.name}</td>
+        <td>${asset.qty}</td>
+        <td>$${asset.buyPrice}</td>
+        <td>$${(asset.qty * asset.buyPrice).toLocaleString()}</td>
+      </tr>
+    `;
 
-let row = `
+    tbody.innerHTML += row;
 
-<tr>
-
-<td>${asset.name}</td>
-
-<td>${asset.qty}</td>
-
-<td>$${asset.buyPrice}</td>
-
-<td>$${(asset.qty*asset.buyPrice).toLocaleString()}</td>
-
-</tr>
-
-`;
-
-tbody.innerHTML += row;
-
-});
+  });
 
 }
 
 displayPortfolio();
-
 
 // BUY ASSET
+function buyAsset(name, price, qty) {
 
-function buyAsset(name,price,qty){
+  let cost = price * qty;
 
-let cost = price * qty;
+  if (balance < cost) {
+    alert("Insufficient Balance!");
+    return;
+  }
 
-if(balance < cost){
+  balance -= cost;
 
-alert("Insufficient Balance!");
+  let found = portfolio.find(item => item.name === name);
 
-return;
+  if (found) {
+    found.qty += qty;
+  } else {
+    portfolio.push({
+      name: name,
+      qty: qty,
+      buyPrice: price
+    });
+  }
 
+  localStorage.setItem("balance", balance);
+  localStorage.setItem(
+    "portfolio",
+    JSON.stringify(portfolio)
+  );
+
+  if (document.getElementById("balance")) {
+    document.getElementById("balance").innerText =
+      balance.toLocaleString();
+  }
+
+  displayPortfolio();
+
+  let history =
+    JSON.parse(localStorage.getItem("history")) || [];
+
+  history.push({
+    type: "BUY",
+    asset: name,
+    qty: qty,
+    price: price,
+    time: new Date().toLocaleString()
+  });
+
+  localStorage.setItem(
+    "history",
+    JSON.stringify(history)
+  );
+
+  alert("Bought " + qty + " " + name);
 }
-
-balance -= cost;
-
-let found = portfolio.find(item=>item.name===name);
-
-if(found){
-
-found.qty += qty;
-
-}else{
-
-portfolio.push({
-
-name:name,
-qty:qty,
-buyPrice:price
-
-});
-
-}
-
-
-// SAVE
-
-localStorage.setItem("balance",balance);
-
-localStorage.setItem(
-"portfolio",
-JSON.stringify(portfolio)
-);
-
-
-// UPDATE BALANCE
-
-if(document.getElementById("balance")){
-
-document.getElementById("balance").innerText =
-balance.toLocaleString();
-
-}
-
-
-displayPortfolio();
-
-
-// HISTORY
-
-let history =
-JSON.parse(localStorage.getItem("history")) || [];
-
-history.push({
-
-type:"BUY",
-asset:name,
-qty:qty,
-price:price,
-time:new Date().toLocaleString()
-
-});
-
-localStorage.setItem(
-"history",
-JSON.stringify(history)
-);
-
-alert("Bought "+qty+" "+name);
-
-}
-
-
 
 // SELL ASSET
+function sellAsset(name, price, qty) {
 
-function sellAsset(name,price,qty){
+  let found = portfolio.find(item => item.name === name);
 
-let found = portfolio.find(item=>item.name===name);
+  if (!found || found.qty < qty) {
+    alert("Not enough quantity!");
+    return;
+  }
 
-if(!found || found.qty < qty){
+  found.qty -= qty;
 
-alert("Not enough quantity!");
+  balance += price * qty;
 
-return;
+  portfolio = portfolio.filter(item => item.qty > 0);
 
+  localStorage.setItem("balance", balance);
+  localStorage.setItem(
+    "portfolio",
+    JSON.stringify(portfolio)
+  );
+
+  if (document.getElementById("balance")) {
+    document.getElementById("balance").innerText =
+      balance.toLocaleString();
+  }
+
+  displayPortfolio();
+
+  let history =
+    JSON.parse(localStorage.getItem("history")) || [];
+
+  history.push({
+    type: "SELL",
+    asset: name,
+    qty: qty,
+    price: price,
+    time: new Date().toLocaleString()
+  });
+
+  localStorage.setItem(
+    "history",
+    JSON.stringify(history)
+  );
+
+  alert("Sold " + qty + " " + name);
 }
 
-found.qty -= qty;
-
-balance += price * qty;
-
-
-// REMOVE ZERO QTY
-
-portfolio = portfolio.filter(item=>item.qty>0);
-
-
-// SAVE
-
-localStorage.setItem("balance",balance);
-
-localStorage.setItem(
-"portfolio",
-JSON.stringify(portfolio)
-);
-
-
-// UPDATE BALANCE
-
-if(document.getElementById("balance")){
-
-document.getElementById("balance").innerText =
-balance.toLocaleString();
-
-}
-
-
-displayPortfolio();
-
-
-// HISTORY
-
-let history =
-JSON.parse(localStorage.getItem("history")) || [];
-
-history.push({
-
-type:"SELL",
-asset:name,
-qty:qty,
-price:price,
-time:new Date().toLocaleString()
-
-});
-
-localStorage.setItem(
-"history",
-JSON.stringify(history)
-);
-
-alert("Sold "+qty+" "+name);
 // THEME
+function toggleTheme() {
 
-function toggleTheme(){
+  document.body.classList.toggle("light-theme");
 
-document.body.classList.toggle("light-theme");
+  if (document.body.classList.contains("light-theme")) {
 
-if(document.body.classList.contains("light-theme")){
+    localStorage.setItem("theme", "light");
 
-localStorage.setItem("theme","light");
+    const btn = document.getElementById("themeBtn");
 
-document.getElementById("themeBtn").innerHTML =
-"☀ Dark Mode";
+    if (btn) {
+      btn.innerHTML = "☀ Light Mode";
+    }
 
-}else{
+  } else {
 
-localStorage.setItem("theme","dark");
+    localStorage.setItem("theme", "dark");
 
-document.getElementById("themeBtn").innerHTML =
-"🌙 Light Mode";
+    const btn = document.getElementById("themeBtn");
 
+    if (btn) {
+      btn.innerHTML = "🌙 Dark Mode";
+    }
+
+  }
 }
-
-}
-
 
 // LOAD SAVED THEME
+if (localStorage.getItem("theme") === "light") {
 
-if(localStorage.getItem("theme")==="light"){
+  document.body.classList.add("light-theme");
 
-document.body.classList.add("light-theme");
+  const btn = document.getElementById("themeBtn");
 
-}
+  if (btn) {
+    btn.innerHTML = "☀ Light Mode";
+  }
 }

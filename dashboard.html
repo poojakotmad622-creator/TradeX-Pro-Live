@@ -26,18 +26,20 @@ align-items:center;
 padding:20px 8%;
 background:#111827;
 border-bottom:1px solid rgba(255,187,0,.2);
+flex-wrap:wrap;
 }
 
 .logo{
-font-size:32px;
+font-size:28px;
 font-weight:bold;
 color:#ffbb00;
 }
 
 .menu{
 display:flex;
-gap:25px;
+gap:20px;
 flex-wrap:wrap;
+align-items:center;
 }
 
 .menu a{
@@ -50,8 +52,18 @@ transition:.3s;
 color:#ffbb00;
 }
 
+.logout{
+color:#ffbb00;
+cursor:pointer;
+}
+
 .container{
 padding:40px 8%;
+}
+
+.welcome{
+margin-bottom:20px;
+color:#aaa;
 }
 
 .cards{
@@ -63,16 +75,16 @@ margin-bottom:40px;
 
 .card{
 flex:1;
-min-width:250px;
+min-width:220px;
 background:#111827;
-padding:30px;
+padding:25px;
 border-radius:20px;
 box-shadow:0 0 15px rgba(255,187,0,.15);
 }
 
 .card h3{
 color:#aaa;
-margin-bottom:15px;
+margin-bottom:10px;
 }
 
 .card h1{
@@ -89,7 +101,7 @@ flex-wrap:wrap;
 flex:1;
 min-width:220px;
 background:#111827;
-padding:30px;
+padding:25px;
 border-radius:20px;
 text-align:center;
 box-shadow:0 0 15px rgba(255,187,0,.15);
@@ -97,26 +109,17 @@ box-shadow:0 0 15px rgba(255,187,0,.15);
 
 .coin h2{
 color:#ffbb00;
-margin-bottom:15px;
-}
-
-.coin h1{
 margin-bottom:10px;
 }
 
-.green{
-color:#00ff99;
-}
-
-.red{
-color:red;
-}
+.green{ color:#00ff99; }
+.red{ color:#ff4d4d; }
 
 @media(max-width:768px){
 
 nav{
 flex-direction:column;
-gap:20px;
+gap:15px;
 }
 
 .menu{
@@ -132,31 +135,27 @@ flex-direction:column;
 
 </style>
 </head>
+
 <body>
 
 <nav>
-
-<div class="logo">
-TradeX Pro
-</div>
+<div class="logo">TradeX Pro</div>
 
 <div class="menu">
-
 <a href="index.html">Home</a>
 <a href="market.html">Market</a>
 <a href="portfolio.html">Portfolio</a>
 <a href="history.html">History</a>
 <a href="profile.html">Profile</a>
-<a href="chart.html">Chart</a>
-<a href="login.html" style="color:#ffbb00;">
-Logout
-</a>
-
+<a class="logout" onclick="logout()">Logout</a>
 </div>
-
 </nav>
 
 <div class="container">
+
+<div class="welcome">
+<h3>Welcome, <span id="username">User</span> 👋</h3>
+</div>
 
 <div class="cards">
 
@@ -217,6 +216,21 @@ Top Coins
 
 <script>
 
+const token = localStorage.getItem("token");
+const user = JSON.parse(localStorage.getItem("user"));
+
+if(!token){
+window.location.href = "login.html";
+}
+
+document.getElementById("username").innerText =
+user?.name || "User";
+
+function logout(){
+localStorage.clear();
+window.location.href = "login.html";
+}
+
 let balance =
 parseFloat(localStorage.getItem("balance")) || 100000;
 
@@ -239,23 +253,23 @@ let initialBalance = 100000;
 
 let profit = balance - initialBalance;
 
-document.getElementById("profit").innerHTML =
+let profitEl = document.getElementById("profit");
+
+profitEl.innerHTML =
 (profit >= 0 ? "+" : "") +
 "$" +
 profit.toLocaleString();
 
 if(profit >= 0){
-document.getElementById("profit").classList.add("green");
+profitEl.classList.add("green");
 }else{
-document.getElementById("profit").classList.add("red");
+profitEl.classList.add("red");
 }
 
 let totalValue = 0;
 
 portfolio.forEach(asset=>{
-
 totalValue += asset.qty * asset.buyPrice;
-
 });
 
 document.getElementById("portfolioValue").innerHTML =

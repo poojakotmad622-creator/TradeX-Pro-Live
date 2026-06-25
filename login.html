@@ -9,7 +9,6 @@
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 <style>
-
 *{
 margin:0;
 padding:0;
@@ -22,28 +21,20 @@ height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
-
 background:
-linear-gradient(rgba(0,0,0,.75),
-rgba(0,0,0,.75)),
+linear-gradient(rgba(0,0,0,.75),rgba(0,0,0,.75)),
 url("https://images.unsplash.com/photo-1621761191319-c6fb62004040")
 center/cover no-repeat;
-
 color:white;
 }
 
 .login-box{
 width:400px;
 padding:40px;
-
 background:rgba(255,255,255,.05);
-
 backdrop-filter:blur(20px);
-
 border:1px solid rgba(255,180,0,.2);
-
 border-radius:25px;
-
 text-align:center;
 }
 
@@ -83,6 +74,13 @@ transform:translateY(-5px);
 box-shadow:0 0 20px #ffb400;
 }
 
+button:disabled{
+opacity:0.6;
+cursor:not-allowed;
+transform:none;
+box-shadow:none;
+}
+
 a{
 color:#ffb400;
 text-decoration:none;
@@ -92,9 +90,13 @@ p{
 margin-top:20px;
 }
 
+#error{
+color:red;
+margin-top:10px;
+}
 </style>
-
 </head>
+
 <body>
 
 <div class="login-box">
@@ -106,25 +108,19 @@ TradeX Pro
 
 <h2>Welcome Back</h2>
 
-<input
-type="email"
-id="email"
-placeholder="Email Address">
+<p id="error"></p>
 
-<input
-type="password"
-id="password"
-placeholder="Password">
+<input type="email" id="email" placeholder="Email Address">
 
-<button onclick="login()">
+<input type="password" id="password" placeholder="Password">
+
+<button onclick="login()" id="loginBtn">
 Login
 </button>
 
 <p>
 Don't have an account?
-<a href="register.html">
-Create Account
-</a>
+<a href="register.html">Create Account</a>
 </p>
 
 </div>
@@ -134,59 +130,72 @@ Create Account
 async function login(){
 
 const email=document.getElementById("email").value;
-
 const password=document.getElementById("password").value;
+
+const btn=document.getElementById("loginBtn");
+const error=document.getElementById("error");
+
+error.innerText="";
+
+// validation
+if(!email || !password){
+error.innerText="Please fill all fields";
+return;
+}
+
+// loading state
+btn.innerText="Logging in...";
+btn.disabled=true;
 
 try{
 
 const response=await fetch(
-"http://localhost:5000/api/auth/login",
+"https://tradex-pro-live-production.up.railway.app/api/auth/login",
 {
 method:"POST",
-
 headers:{
 "Content-Type":"application/json"
 },
-
 body:JSON.stringify({
 email,
 password
 })
-
-});
+}
+);
 
 const data=await response.json();
 
 if(response.ok){
 
-alert("Login Successful ✅");
+localStorage.setItem("token",data.token);
+localStorage.setItem("user",JSON.stringify(data.user));
 
-localStorage.setItem(
-"token",
-data.token
-);
-
+btn.innerText="Success ✔";
 window.location.href="dashboard.html";
 
 }
-
 else{
 
-alert(data.message);
+error.innerText=data.message || "Login failed";
+
+btn.innerText="Login";
+btn.disabled=false;
 
 }
 
 }
-
 catch(error){
 
-alert("Server Error");
+error.innerText="Server Error. Try again.";
+
+btn.innerText="Login";
+btn.disabled=false;
 
 }
 
 }
 
 </script>
-<script src="app.js"></script>
+
 </body>
 </html>
