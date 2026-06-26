@@ -8,6 +8,7 @@ const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const portfolioRoutes = require("./routes/portfolioRoutes");
 const transactionRoutes = require("./routes/transactionRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 
 dotenv.config();
 console.log("MONGO_URI =", process.env.MONGO_URI);
@@ -27,6 +28,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/portfolio", portfolioRoutes);
 
 app.use("/api/transactions", transactionRoutes);
+
+app.use("/api/admin", adminRoutes);
 
 // Home Route
 // Home Route
