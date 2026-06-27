@@ -93,7 +93,16 @@ app.get("/api/admin/stats", verifyToken, async (req, res) => {
     totalBalance: totalBalance[0]?.total || 0
   });
 });
+/* ================= HOME ROUTE ================= */
 
+app.get("/", (req, res) => {
+  res.json({
+    status: "Server Running 🚀",
+    message: "TradeX Pro Backend is Live",
+    mongo: process.env.MONGO_URI ? "CONNECTED" : "MISSING",
+    jwt: process.env.JWT_SECRET ? "READY" : "MISSING"
+  });
+});
 /* ================= SERVER ================= */
 
 const PORT = process.env.PORT || 8080;
