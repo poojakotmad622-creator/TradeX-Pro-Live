@@ -4,13 +4,16 @@ const userSchema = new mongoose.Schema(
 {
   name:{
     type:String,
-    required:true
+    required:true,
+    trim:true
   },
 
   email:{
     type:String,
     required:true,
-    unique:true
+    unique:true,
+    lowercase:true,
+    trim:true
   },
 
   password:{
@@ -20,7 +23,13 @@ const userSchema = new mongoose.Schema(
 
   role:{
     type:String,
+    enum:["admin","user"],
     default:"user"
+  },
+
+  balance:{
+    type:Number,
+    default:0
   },
 
   createdBy:{
@@ -36,4 +45,3 @@ const userSchema = new mongoose.Schema(
 );
 
 module.exports = mongoose.model("User", userSchema);
-

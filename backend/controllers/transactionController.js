@@ -1,11 +1,11 @@
 const Transaction = require("../models/Transaction");
 
-// Buy Stock
+// BUY STOCK
 exports.buyStock = async (req, res) => {
   try {
     const { symbol, quantity, price } = req.body;
 
-    const transaction = new Transaction({
+    const transaction = await Transaction.create({
       user: req.user.id,
       symbol,
       type: "BUY",
@@ -13,26 +13,26 @@ exports.buyStock = async (req, res) => {
       price
     });
 
-    await transaction.save();
-
     res.status(201).json({
+      success: true,
       message: "Stock bought successfully",
       transaction
     });
 
   } catch (error) {
     res.status(500).json({
+      success: false,
       message: error.message
     });
   }
 };
 
-// Sell Stock
+// SELL STOCK
 exports.sellStock = async (req, res) => {
   try {
     const { symbol, quantity, price } = req.body;
 
-    const transaction = new Transaction({
+    const transaction = await Transaction.create({
       user: req.user.id,
       symbol,
       type: "SELL",
@@ -40,31 +40,35 @@ exports.sellStock = async (req, res) => {
       price
     });
 
-    await transaction.save();
-
     res.status(201).json({
+      success: true,
       message: "Stock sold successfully",
       transaction
     });
 
   } catch (error) {
     res.status(500).json({
+      success: false,
       message: error.message
     });
   }
 };
 
-// Transaction History
+// TRANSACTION HISTORY
 exports.getTransactions = async (req, res) => {
   try {
     const transactions = await Transaction.find({
       user: req.user.id
-    });
+    }).sort({ createdAt: -1 });
 
-    res.status(200).json(transactions);
+    res.status(200).json({
+      success: true,
+      transactions
+    });
 
   } catch (error) {
     res.status(500).json({
+      success: false,
       message: error.message
     });
   }
