@@ -284,105 +284,7 @@ No Transactions Yet
 
 </div>
 
-<script>
-
-const token = localStorage.getItem("token");
-
-if(!token){
-window.location.href = "login.html";
-}
-
-const user =
-JSON.parse(localStorage.getItem("user"));
-
-document.getElementById("username").innerText =
-user?.name || "User";
-
-function logout(){
-
-localStorage.removeItem("token");
-localStorage.removeItem("user");
-
-window.location.href = "login.html";
-
-}
-
-let balance =
-parseFloat(localStorage.getItem("balance")) || 100000;
-
-let portfolio =
-JSON.parse(localStorage.getItem("portfolio")) || [];
-
-let history =
-JSON.parse(localStorage.getItem("history")) || [];
-
-document.getElementById("balance").innerHTML =
-"$" + balance.toLocaleString();
-
-document.getElementById("assets").innerHTML =
-portfolio.length;
-
-document.getElementById("transactions").innerHTML =
-history.length;
-
-let initialBalance = 100000;
-
-let profit = balance - initialBalance;
-
-let profitEl =
-document.getElementById("profit");
-
-profitEl.innerHTML =
-(profit >= 0 ? "+" : "") +
-"$" +
-profit.toLocaleString();
-
-if(profit >= 0){
-profitEl.classList.add("green");
-}else{
-profitEl.classList.add("red");
-}
-
-let totalValue = 0;
-
-portfolio.forEach(asset=>{
-totalValue += asset.qty * asset.buyPrice;
-});
-
-document.getElementById("portfolioValue").innerHTML =
-"$" + totalValue.toLocaleString();
-
-let portfolioBody =
-document.getElementById("portfolioTableBody");
-
-portfolio.forEach(asset=>{
-
-portfolioBody.innerHTML += `
-<tr>
-<td>${asset.name}</td>
-<td>${asset.qty}</td>
-<td>$${asset.buyPrice}</td>
-</tr>
-`;
-
-});
-
-let historyList =
-document.getElementById("historyList");
-
-if(history.length > 0){
-
-historyList.innerHTML = "";
-
-history.slice(-5).reverse().forEach(item=>{
-
-historyList.innerHTML += `
-<div class="history-item">
-${item.type} ${item.asset}
-(${item.qty}) - $${item.price}
-</div>
-`;
-
+<script src="dashboard.js"></script>
 });
 
 }
@@ -392,3 +294,4 @@ ${item.type} ${item.asset}
 </body>
 </html>
 ```
+
