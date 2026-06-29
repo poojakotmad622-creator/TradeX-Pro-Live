@@ -1,5 +1,5 @@
 const token = localStorage.getItem("token");
-
+const API = "https://tradex-pro-live-production.up.railway.app";
 if (!token) {
   window.location.href = "login.html";
 }
@@ -14,7 +14,7 @@ let users = [];
 /* ================= USERS ================= */
 
 async function loadUsers() {
-  const res = await fetch("/api/users", { headers });
+  const res = await fetch(`${API}/api/users`, { headers });
   const data = await res.json();
 
   users = data || [];
@@ -37,7 +37,7 @@ async function createUser() {
 
   if (!name || !email) return alert("Fill all fields");
 
-  await fetch("/api/users", {
+  await fetch(`${API}/api/users`, {
     method: "POST",
     headers,
     body: JSON.stringify({ name, email })
@@ -47,7 +47,7 @@ async function createUser() {
 }
 
 async function deleteUser(id) {
-  await fetch(`/api/users/${id}`, {
+  await fetch(`${API}/api/users/${id}`, {
     method: "DELETE",
     headers
   });
@@ -58,7 +58,7 @@ async function deleteUser(id) {
 /* ================= DEPOSITS ================= */
 
 async function loadDeposits() {
-  const res = await fetch("/api/deposits", { headers });
+  const res = await fetch(`${API}/api/deposits`, { headers });
   const data = await res.json();
 
   document.getElementById("depositTable").innerHTML =
@@ -76,21 +76,21 @@ async function loadDeposits() {
 }
 
 async function approveDeposit(id) {
-  await fetch(`/api/deposit/${id}/approve`, { method: "PUT", headers });
+  await fetch(`${API}/api/deposit/${id}/approve`, { method: "PUT", headers });
   loadDeposits();
   loadUsers();
   loadWallets();
 }
 
 async function rejectDeposit(id) {
-  await fetch(`/api/deposit/${id}/reject`, { method: "PUT", headers });
+  await fetch(`${API}/api/deposits/${id}/reject`, { method: "PUT", headers });
   loadDeposits();
 }
 
 /* ================= WITHDRAW ================= */
 
 async function loadWithdrawals() {
-  const res = await fetch("/api/withdrawals", { headers });
+  const res = await fetch(`${API}/api/withdrawals`, { headers });
   const data = await res.json();
 
   document.getElementById("withdrawTable").innerHTML =
@@ -108,21 +108,21 @@ async function loadWithdrawals() {
 }
 
 async function approveWithdraw(id) {
-  await fetch(`/api/withdraw/${id}/approve`, { method: "PUT", headers });
+  await fetch(`${API}/api/withdraw/${id}/approve`, { method: "PUT", headers });
   loadWithdrawals();
   loadUsers();
   loadWallets();
 }
 
 async function rejectWithdraw(id) {
-  await fetch(`/api/withdraw/${id}/reject`, { method: "PUT", headers });
+  await fetch(`${API}/api/deposits/${id}/approve`, { method: "PUT", headers });
   loadWithdrawals();
 }
 
 /* ================= WALLETS ================= */
 
 async function loadWallets() {
-  const res = await fetch("/api/wallets", { headers });
+  const res = await fetch(`${API}/api/wallets`, { headers });
   const data = await res.json();
 
   let total = 0;

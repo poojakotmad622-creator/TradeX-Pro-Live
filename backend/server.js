@@ -9,6 +9,7 @@ const connectDB = require("./config/db");
 
 const User = require("./models/User");
 const authRoutes = require("./routes/authRoutes");
+const depositRoutes = require("./routes/depositRoutes");
 
 dotenv.config();
 connectDB();
@@ -16,7 +17,8 @@ connectDB();
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use("/api/auth", authRoutes);
+fetch(`${API}/api/deposits/${id}/approve`
+app.use("/api/deposits", depositRoutes);
 
 /* ================= JWT VERIFY ================= */
 
